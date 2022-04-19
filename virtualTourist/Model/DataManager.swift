@@ -21,7 +21,6 @@ class DataManager {
     // init
     init(name: String) {
         persistentContainer = NSPersistentContainer(name: name)
-        setUpContexts()
     }
     
     // setUpContexts
@@ -35,6 +34,20 @@ class DataManager {
         viewContext.automaticallyMergesChangesFromParent = true
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
         viewContext.name = "UI Context"
+    }
+    
+    // loadStore
+    // Loads the persistent store
+    func loadStore(successHandler: (() -> Void)?, errorHandler: ((Error) -> Void)?) {
+        persistentContainer.loadPersistentStores { storeDescription, error in
+            guard error == nil else {
+                errorHandler?(error!)
+                return
+            }
+            
+            successHandler?()
+            self.setUpContexts()
+        }
     }
     
     // saveContext

@@ -8,15 +8,22 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
 
 
+    // MARK: Lifecycle Methods
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        // Load the store
+        loadStore()
+        
+        // Inject the data manager
+        let mapViewController = (window?.rootViewController as! UINavigationController).topViewController as! MapViewController
+        mapViewController.dataManager = (UIApplication.shared.delegate as? AppDelegate)?.dataManager
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,9 +54,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        (UIApplication.shared.delegate as? AppDelegate)?.dataManager.saveContext(useViewContext: true) {
+            error in
+            print(error)
+        }
     }
-
-
+    
+    // MARK: Helpers
+    // loadStore
+    // Tries to load the store. If there's an error, alerts the user and enables a retry.
+    func loadStore() {
+        (UIApplication.shared.delegate as? AppDelegate)?.dataManager.loadStore(successHandler: nil) { error in
+            DispatchQueue.main.async {
+                let errorAlert = UIAlertController(title: "Error loading persistent storage", message: error.localizedDescription, preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { _ in
+                    self.loadStore()
+                }))
+            }
+        }
+    }
 }
 
