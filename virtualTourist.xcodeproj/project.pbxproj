@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010A1081280F27690018533C /* LocationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010A1080280F27690018533C /* LocationDetailViewController.swift */; };
 		01E6C154280EBD9F00B59941 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E6C153280EBD9F00B59941 /* AppDelegate.swift */; };
 		01E6C156280EBD9F00B59941 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E6C155280EBD9F00B59941 /* SceneDelegate.swift */; };
 		01E6C158280EBD9F00B59941 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E6C157280EBD9F00B59941 /* MapViewController.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010A1080280F27690018533C /* LocationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailViewController.swift; sourceTree = "<group>"; };
 		01E6C150280EBD9F00B59941 /* virtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = virtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01E6C153280EBD9F00B59941 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01E6C155280EBD9F00B59941 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				01E6C155280EBD9F00B59941 /* SceneDelegate.swift */,
 				01E6C157280EBD9F00B59941 /* MapViewController.swift */,
 				01E6C159280EBD9F00B59941 /* Main.storyboard */,
+				010A1080280F27690018533C /* LocationDetailViewController.swift */,
 				01E6C15F280EBDA500B59941 /* Assets.xcassets */,
 				01E6C161280EBDA500B59941 /* LaunchScreen.storyboard */,
 				01E6C164280EBDA500B59941 /* Info.plist */,
@@ -276,6 +279,7 @@
 				01E6C15E280EBD9F00B59941 /* virtualTourist.xcdatamodeld in Sources */,
 				01E6C158280EBD9F00B59941 /* MapViewController.swift in Sources */,
 				01E6C154280EBD9F00B59941 /* AppDelegate.swift in Sources */,
+				010A1081280F27690018533C /* LocationDetailViewController.swift in Sources */,
 				01E6C156280EBD9F00B59941 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
