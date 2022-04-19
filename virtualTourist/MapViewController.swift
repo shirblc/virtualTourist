@@ -33,6 +33,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         mapView.delegate = self
         self.loadPins()
+        self.setUpLongTouchRecogniser()
     }
 
     // MARK: Pins-related Methods
@@ -52,21 +53,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             self.showErrorAlert(error: error) {
                 self.loadPins()
             }
-        }
-    }
-    
-    // showErrorAlert
-    // Displays an error alert that allows the user to retry fetching the pins
-    func showErrorAlert(error: Error, retryCallback: (() -> Void)?) {
-        DispatchQueue.main.async {
-            let errorAlert = UIAlertController(title: "Error fetching pins", message: error.localizedDescription, preferredStyle: .alert)
-            errorAlert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
-                self.dismiss(animated: true)
-            }))
-            errorAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { _ in
-                retryCallback?()
-            }))
-            self.present(errorAlert, animated: true)
         }
     }
     
@@ -95,6 +81,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.showErrorAlert(error: error, retryCallback: nil)
             }
         }
+    }
+    
+    // MARK: Utilities
+    // showErrorAlert
+    // Displays an error alert that allows the user to optionally retry
+    func showErrorAlert(error: Error, retryCallback: (() -> Void)?) {
+        DispatchQueue.main.async {
+            let errorAlert = UIAlertController(title: "Error fetching pins", message: error.localizedDescription, preferredStyle: .alert)
+            errorAlert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
+                self.dismiss(animated: true)
+            }))
+            errorAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { _ in
+                retryCallback?()
+            }))
+            self.present(errorAlert, animated: true)
+        }
+    }
+    
+    // setUpLongTouchRecogniser
+    // Sets up the long touch recogniser
+    func setUpLongTouchRecogniser() {
+        self.longPressGestureRecogniser.minimumPressDuration = 1.5
+        self.longPressGestureRecogniser.numberOfTouchesRequired = 1
     }
 }
 
