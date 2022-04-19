@@ -36,4 +36,21 @@ class DataManager {
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
         viewContext.name = "UI Context"
     }
+    
+    // saveContext
+    // Saves the given context
+    func saveContext (useViewContext: Bool, errorHandler: @escaping (Error) -> Void) {
+        // if the user chose to use the view context, use it. Otherwise use the background context
+        let context = useViewContext ? self.viewContext : self.backgroundContext!
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                DispatchQueue.main.async {
+                    errorHandler(error)
+                }
+            }
+        }
+    }
+    
 }
