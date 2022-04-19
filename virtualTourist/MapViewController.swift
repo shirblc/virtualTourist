@@ -32,6 +32,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        self.loadPins()
     }
 
     // MARK: Pins-related Methods
@@ -39,7 +40,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // Creates and executes the fetch request for the saved pins
     func loadPins() {
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "latitude", ascending: false), NSSortDescriptor(key: "longtitude", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "latitude", ascending: false), NSSortDescriptor(key: "longitude", ascending: false)]
         
         // if the fetch was successful, add the annotations to the map
         do {
