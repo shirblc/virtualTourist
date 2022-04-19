@@ -35,6 +35,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.loadPins()
         self.setUpLongTouchRecogniser()
     }
+    
+    // prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // if the destination is the detail view controller, set the relevant variables
+        if(segue.identifier == "viewDetailSegue") {
+            let destination = segue.destination as! LocationDetailViewController
+            // set the data manager property
+            destination.dataManager = self.dataManager
+            
+            // get the index of the selected pin
+            let pinIndex = self.pins.firstIndex(where: { pin in
+                return pin.longitude == (sender as! MKAnnotationView).annotation?.coordinate.longitude && pin.latitude == (sender as! MKAnnotationView).annotation?.coordinate.latitude
+            })
+            
+            // pass it to the detail VC
+            if let pinIndex = pinIndex {
+                destination.pin = self.pins[pinIndex]
+            }
+        }
+    }
 
     // MARK: Pins-related Methods
     // loadPins
@@ -104,6 +124,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func setUpLongTouchRecogniser() {
         self.longPressGestureRecogniser.minimumPressDuration = 1.5
         self.longPressGestureRecogniser.numberOfTouchesRequired = 1
+    }
+    
+    // MARK: MKMapViewDelegate Methods
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        // pass the selected pin to the prepare(forSegue) method
+        performSegue(withIdentifier: "viewDetailSegue", sender: view)
     }
 }
 

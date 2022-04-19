@@ -9,6 +9,7 @@ import UIKit
 
 class LocationDetailViewController: UIViewController {
     var dataManager: DataManager!
+    var pin: Pin!
 
     override func viewDidLoad() {
         super.viewDidLoad()
