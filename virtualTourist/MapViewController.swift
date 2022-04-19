@@ -14,6 +14,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var dataManager: DataManager!
     var pins: [Pin] = []
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet var longPressGestureRecogniser: UILongPressGestureRecognizer!
     
     var pinsAnnotations: [MKPointAnnotation] {
         var annotations: [MKPointAnnotation] = []
@@ -47,22 +48,51 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             self.mapView.addAnnotations(self.pinsAnnotations)
         // otherwise alert the user
         } catch {
-            self.showErrorAlert(error: error)
+            self.showErrorAlert(error: error) {
+                self.loadPins()
+            }
         }
     }
     
     // showErrorAlert
     // Displays an error alert that allows the user to retry fetching the pins
-    func showErrorAlert(error: Error) {
+    func showErrorAlert(error: Error, retryCallback: (() -> Void)?) {
         DispatchQueue.main.async {
             let errorAlert = UIAlertController(title: "Error fetching pins", message: error.localizedDescription, preferredStyle: .alert)
             errorAlert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
                 self.dismiss(animated: true)
             }))
             errorAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { _ in
-                self.loadPins()
+                retryCallback?()
             }))
             self.present(errorAlert, animated: true)
+        }
+    }
+    
+    // addAnnotation
+    // Adds an annotation to the map and the store
+    @IBAction func addAnnotation(_ sender: Any) {
+        let recogniser = sender as! UILongPressGestureRecognizer
+        let touchLocation = recogniser.location(in: self.mapView)
+        let locationCoords = self.mapView.convert(touchLocation, toCoordinateFrom: self.mapView)
+        
+        // create the pin in the view context since we need to use it in the view
+        let pin = Pin(context: self.dataManager.viewContext)
+        pin.latitude = locationCoords.latitude
+        pin.longitude = locationCoords.longitude
+        
+        // add the annotation to the map view
+        DispatchQueue.main.async {
+            self.pins.append(pin)
+            self.mapView.addAnnotation(self.pinsAnnotations.last!)
+        }
+        
+        // save the context
+        self.dataManager.viewContext.perform {
+            self.dataManager.saveContext(useViewContext: true) {
+                error in
+                self.showErrorAlert(error: error, retryCallback: nil)
+            }
         }
     }
 }
