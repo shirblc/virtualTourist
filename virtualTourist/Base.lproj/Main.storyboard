@@ -15,10 +15,24 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEi-2v-dbg">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </mapView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iEi-2v-dbg" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="AKA-IS-Rbo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="iEi-2v-dbg" secondAttribute="trailing" id="Zva-vY-lOb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="iEi-2v-dbg" secondAttribute="bottom" id="omT-TK-DdJ"/>
+                            <constraint firstItem="iEi-2v-dbg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pfe-XF-OQp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UJ6-7U-xlk"/>
+                    <connections>
+                        <outlet property="mapView" destination="iEi-2v-dbg" id="cSS-Hg-dzh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
