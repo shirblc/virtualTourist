@@ -24,11 +24,13 @@ class LocationDetailViewController: UIViewController, UICollectionViewDelegate, 
     var currentMode: DetailMode = .PhotoAlbum
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewToolbar: UIToolbar!
     
     // MARK: Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupMap()
+        self.setupToolbar()
         self.setupAlbumFetchedResultsController()
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -52,6 +54,20 @@ class LocationDetailViewController: UIViewController, UICollectionViewDelegate, 
             annotation.coordinate.longitude = self.pin.longitude
             annotation.coordinate.latitude = self.pin.latitude
             self.mapView.addAnnotation(annotation)
+        }
+    }
+    
+    // setupToolbar
+    // Sets up the bottom toolbar
+    func setupToolbar() {
+        let createItem = UIBarButtonItem(title: "New Album", style: .plain, target: self, action: #selector(addAlbum))
+        let spaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let backItem = UIBarButtonItem(title: "Back to Albums", style: .plain, target: self, action: #selector(returnToAlbumView))
+        
+        if(currentMode == .PhotoAlbum) {
+            collectionViewToolbar.items = [spaceItem, createItem, spaceItem]
+        } else {
+            collectionViewToolbar.items = [spaceItem, backItem, spaceItem]
         }
     }
     
@@ -178,5 +194,41 @@ class LocationDetailViewController: UIViewController, UICollectionViewDelegate, 
             }))
             self.present(errorAlert, animated: true)
         }
+    }
+    
+    // addAlbum
+    // Shows the alert for adding an album
+    @objc func addAlbum() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Create Album", message: "Enter name for the album", preferredStyle: .alert)
+            alert.addTextField()
+            alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
+                let albumName = alert.textFields?[0].text
+                self.createAlbum(albumName: albumName)
+                self.dismiss(animated: true)
+            }))
+            self.present(alert, animated: true)
+        }
+    }
+    
+    // createAlbum
+    // Creates a new album with the given name in Core Data
+    func createAlbum(albumName: String?) {
+        dataManager.backgroundContext.perform {
+            let photoAlbum = PhotoAlbum(context: self.dataManager.backgroundContext)
+            photoAlbum.name = albumName
+            photoAlbum.createdAt = Date()
+            
+            self.dataManager.saveContext(useViewContext: false) { error in
+                self.showErrorAlert(error: error, retryCallback: nil)
+            }
+        }
+    }
+    
+    // returnToAlbumView
+    // Switches back to the album view
+    @objc func returnToAlbumView() {
+        self.currentMode = .PhotoAlbum
+        self.photoResultsController = nil
     }
 }

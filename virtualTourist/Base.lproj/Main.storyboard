@@ -109,9 +109,7 @@
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lj9-aE-gA2">
                                 <rect key="frame" x="0.0" y="813" width="414" height="49"/>
-                                <items>
-                                    <barButtonItem title="Item" id="yXJ-Ac-hlM"/>
-                                </items>
+                                <items/>
                             </toolbar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rjt-Yu-fHZ"/>
@@ -132,6 +130,7 @@
                     <navigationItem key="navigationItem" id="dDQ-dZ-IH1"/>
                     <connections>
                         <outlet property="collectionView" destination="rec-E5-toC" id="4ec-gJ-osf"/>
+                        <outlet property="collectionViewToolbar" destination="lj9-aE-gA2" id="CPZ-QC-UOO"/>
                         <outlet property="mapView" destination="T63-4h-c7E" id="irO-dI-loB"/>
                     </connections>
                 </viewController>
