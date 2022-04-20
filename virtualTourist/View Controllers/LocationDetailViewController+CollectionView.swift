@@ -39,11 +39,17 @@ extension LocationDetailViewController: UICollectionViewDelegate, UICollectionVi
                 viewCell.albumLabel.isHidden = false
                 viewCell.albumLabel.text = albumAtIndex.name
                 // randomly select an image from the set to display
-                let randomNumber = Int.random(in:0..<(albumAtIndex.photos?.count ?? 0))
-                let photosArray = albumAtIndex.photos?.allObjects as! [Photo]
-                if let selectedPhoto = photosArray[randomNumber].photo {
-                    viewCell.albumImage.image = UIImage(data: selectedPhoto)
-                    viewCell.albumImage.alpha = 0.5
+                if let photos = albumAtIndex.photos {
+                    if photos.count > 0 {
+                        let randomNumber = Int.random(in:0..<photos.count)
+                        let photosArray = photos.allObjects as! [Photo]
+                        if let selectedPhoto = photosArray[randomNumber].photo {
+                            viewCell.albumImage.image = UIImage(data: selectedPhoto)
+                            viewCell.albumImage.alpha = 0.5
+                        }
+                    } else {
+                        viewCell.albumImage.image = nil
+                    }
                 }
             }
         // otherwise show the image in the given position
