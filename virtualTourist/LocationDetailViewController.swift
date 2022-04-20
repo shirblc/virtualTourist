@@ -16,10 +16,12 @@ enum DetailMode: String {
     case Photo = "Photo"
 }
 
-class LocationDetailViewController: UIViewController, UICollectionViewDataSource {
+class LocationDetailViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     var dataManager: DataManager!
     var pin: Pin!
     var albumResultsController: NSFetchedResultsController<PhotoAlbum>!
+    var selectedAlbum: PhotoAlbum?
+    var currentMode: DetailMode = .PhotoAlbum
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -91,6 +93,11 @@ class LocationDetailViewController: UIViewController, UICollectionViewDataSource
         }
         
         return viewCell
+    }
+    
+    // MARK: UICollectionViewDataSource Methods
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return self.currentMode == .PhotoAlbum ? true : false
     }
     
     // MARK: Utilities
