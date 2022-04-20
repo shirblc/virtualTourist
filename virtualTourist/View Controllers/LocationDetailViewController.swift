@@ -123,5 +123,7 @@ class LocationDetailViewController: UIViewController {
     @objc func returnToAlbumView() {
         self.currentMode = .PhotoAlbum
         self.photoResultsController = nil
+        self.setupToolbar()
+        self.collectionView.reloadData()
     }
 }

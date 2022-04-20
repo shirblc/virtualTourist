@@ -41,7 +41,7 @@ extension LocationDetailViewController {
         
         self.photoResultsController = NSFetchedResultsController(fetchRequest: photoRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "photosForAlbum\(selectedAlbum.name!)")
         
-        self.performAlbumRequest()
+        self.performPhotoRequest()
     }
     
     // performPhotoRequest
@@ -55,6 +55,8 @@ extension LocationDetailViewController {
             // if the photos have been fetched, set the mode to photo
             if let _ = photoResultsController.fetchedObjects {
                 self.currentMode = .Photo
+                self.collectionView.reloadData()
+                self.setupToolbar()
             }
         } catch {
             showErrorAlert(error: error, retryCallback: performPhotoRequest)
