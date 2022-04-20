@@ -11,7 +11,12 @@ import CoreData
 
 let reuseIdentifier = "albumImageCell"
 
-class LocationDetailViewController: UIViewController {
+enum DetailMode: String {
+    case PhotoAlbum = "PhotoAlbum"
+    case Photo = "Photo"
+}
+
+class LocationDetailViewController: UIViewController, UICollectionViewDataSource {
     var dataManager: DataManager!
     var pin: Pin!
     var albumResultsController: NSFetchedResultsController<PhotoAlbum>!
@@ -66,6 +71,26 @@ class LocationDetailViewController: UIViewController {
         } catch {
             showErrorAlert(error: error, retryCallback: performAlbumRequest)
         }
+    }
+    
+    // MARK: UICollectionViewDataSource Methods
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.albumResultsController.fetchedObjects?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let albumAtIndex = self.albumResultsController.object(at: indexPath)
+        
+        let viewCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AlbumViewCell
+        viewCell.albumLabel.text = albumAtIndex.name
+        // randomly select an image from the set to display
+        let randomNumber = Int.random(in:0..<(albumAtIndex.photos?.count ?? 0))
+        let photosArray = albumAtIndex.photos?.allObjects as! [Photo]
+        if let selectedPhoto = photosArray[randomNumber].photo {
+            viewCell.albumImage.image = UIImage(data: selectedPhoto)
+        }
+        
+        return viewCell
     }
     
     // MARK: Utilities
