@@ -14,7 +14,7 @@
     <entity name="Pin" representedClassName="Pin" syncable="YES" codeGenerationType="class">
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" allowsCloudEncryption="YES" usesScalarValueType="YES"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" allowsCloudEncryption="YES" usesScalarValueType="YES"/>
-        <relationship name="albums" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PhotoAlbum" inverseName="location" inverseEntity="PhotoAlbum"/>
+        <relationship name="albums" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PhotoAlbum" inverseName="location" inverseEntity="PhotoAlbum"/>
     </entity>
     <elements>
         <element name="Photo" positionX="-54" positionY="9" width="128" height="74"/>
