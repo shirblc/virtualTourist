@@ -74,13 +74,36 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="albumImageCell" id="zpa-0l-jug">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="albumImageCell" id="zpa-0l-jug" customClass="AlbumViewCell" customModule="virtualTourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="4Wn-UI-Irf">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eJ9-MV-SEW">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ed0-sV-M7q">
+                                                    <rect key="frame" x="43" y="53.5" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="eJ9-MV-SEW" firstAttribute="leading" secondItem="4Wn-UI-Irf" secondAttribute="leading" id="7bj-jh-Tsk"/>
+                                                <constraint firstItem="Ed0-sV-M7q" firstAttribute="centerX" secondItem="4Wn-UI-Irf" secondAttribute="centerX" id="A2o-0c-HYX"/>
+                                                <constraint firstItem="eJ9-MV-SEW" firstAttribute="top" secondItem="4Wn-UI-Irf" secondAttribute="top" id="KY6-4J-cwZ"/>
+                                                <constraint firstItem="Ed0-sV-M7q" firstAttribute="centerY" secondItem="4Wn-UI-Irf" secondAttribute="centerY" id="esq-4n-tXO"/>
+                                                <constraint firstAttribute="bottom" secondItem="eJ9-MV-SEW" secondAttribute="bottom" id="knS-lO-ilq"/>
+                                                <constraint firstAttribute="trailing" secondItem="eJ9-MV-SEW" secondAttribute="trailing" id="rQ6-On-dhS"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="albumImage" destination="eJ9-MV-SEW" id="xMy-Qw-ggy"/>
+                                            <outlet property="albumLabel" destination="Ed0-sV-M7q" id="D4j-D0-OGa"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>

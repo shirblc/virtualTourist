@@ -19,6 +19,7 @@
 		01E6C178280EBDA600B59941 /* virtualTouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E6C177280EBDA600B59941 /* virtualTouristUITests.swift */; };
 		01E6C17A280EBDA600B59941 /* virtualTouristUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E6C179280EBDA600B59941 /* virtualTouristUITestsLaunchTests.swift */; };
 		01E6C188280EC1FC00B59941 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E6C187280EC1FC00B59941 /* DataManager.swift */; };
+		F0BCB603280FE3780003E9AF /* AlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BCB602280FE3780003E9AF /* AlbumViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		01E6C177280EBDA600B59941 /* virtualTouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = virtualTouristUITests.swift; sourceTree = "<group>"; };
 		01E6C179280EBDA600B59941 /* virtualTouristUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = virtualTouristUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		01E6C187280EC1FC00B59941 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		F0BCB602280FE3780003E9AF /* AlbumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 		01E6C152280EBD9F00B59941 /* virtualTourist */ = {
 			isa = PBXGroup;
 			children = (
+				F0BCB601280FE34A0003E9AF /* Views */,
 				01E6C186280EC15700B59941 /* Model */,
 				01E6C153280EBD9F00B59941 /* AppDelegate.swift */,
 				01E6C155280EBD9F00B59941 /* SceneDelegate.swift */,
@@ -142,6 +145,14 @@
 				01E6C187280EC1FC00B59941 /* DataManager.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		F0BCB601280FE34A0003E9AF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F0BCB602280FE3780003E9AF /* AlbumViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,6 +290,7 @@
 				01E6C15E280EBD9F00B59941 /* virtualTourist.xcdatamodeld in Sources */,
 				01E6C158280EBD9F00B59941 /* MapViewController.swift in Sources */,
 				01E6C154280EBD9F00B59941 /* AppDelegate.swift in Sources */,
+				F0BCB603280FE3780003E9AF /* AlbumViewCell.swift in Sources */,
 				010A1081280F27690018533C /* LocationDetailViewController.swift in Sources */,
 				01E6C156280EBD9F00B59941 /* SceneDelegate.swift in Sources */,
 			);
