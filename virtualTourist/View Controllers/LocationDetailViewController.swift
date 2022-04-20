@@ -34,6 +34,8 @@ class LocationDetailViewController: UIViewController {
         self.setupAlbumFetchedResultsController()
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        self.albumResultsController.delegate = self
+        self.photoResultsController?.delegate = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {

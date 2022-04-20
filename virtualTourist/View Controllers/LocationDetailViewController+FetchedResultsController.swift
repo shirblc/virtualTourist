@@ -8,13 +8,13 @@
 import Foundation
 import CoreData
 
-extension LocationDetailViewController {
+extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
     // MARK: Setup Methods
     // setupAlbumFetchedResultsController
     // Sets up the fetched results controller
     func setupAlbumFetchedResultsController() {
         let albumRequest: NSFetchRequest<PhotoAlbum> = PhotoAlbum.fetchRequest()
-        albumRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false), NSSortDescriptor(key: "createdAt", ascending: false)]
+        albumRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true), NSSortDescriptor(key: "createdAt", ascending: false)]
         albumRequest.predicate = NSPredicate(format: "location == %@", self.pin)
         
         self.albumResultsController = NSFetchedResultsController(fetchRequest: albumRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "albumsForLocation\(pin.latitude)\(pin.longitude)")
@@ -60,6 +60,22 @@ extension LocationDetailViewController {
             }
         } catch {
             showErrorAlert(error: error, retryCallback: performPhotoRequest)
+        }
+    }
+    
+    // MARK: NSFetchedResultsControllerDelegate Methods
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [(indexPath ?? newIndexPath)!])
+        case .delete:
+            collectionView.deleteItems(at: [(indexPath ?? newIndexPath)!])
+        case .move:
+            collectionView.moveItem(at: indexPath!, to: newIndexPath!)
+        case .update:
+            collectionView.reloadItems(at: [(indexPath ?? newIndexPath)!])
+        @unknown default:
+            collectionView.reloadData()
         }
     }
 }
