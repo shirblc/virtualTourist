@@ -10,15 +10,19 @@ import UIKit
 
 extension LocationDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     // MARK: UICollectionViewDataSource Methods
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return (currentMode == .PhotoAlbum ? albumResultsController.sections?.count : photoResultsController?.sections?.count) ?? 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // if we're veiewing albums, set the length of that array as number of items in view
         if(currentMode == .PhotoAlbum) {
-            return self.albumResultsController.fetchedObjects?.count ?? 0
+            return self.albumResultsController.sections?[section].numberOfObjects ?? 0
         // otherwise make sure there's a photoResultsController; if there is, set the length of the fetched results as the number of items in view
         } else {
             guard let photoResultsController = photoResultsController else { return 0 }
             
-            return photoResultsController.fetchedObjects?.count ?? 0
+            return photoResultsController.sections?[section].numberOfObjects ?? 0
         }
     }
     
