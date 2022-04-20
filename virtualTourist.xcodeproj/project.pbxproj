@@ -21,6 +21,7 @@
 		01E6C188280EC1FC00B59941 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E6C187280EC1FC00B59941 /* DataManager.swift */; };
 		F0BCB603280FE3780003E9AF /* AlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BCB602280FE3780003E9AF /* AlbumViewCell.swift */; };
 		F0C06376281035A10012D745 /* LocationDetailViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C06375281035A10012D745 /* LocationDetailViewController+CollectionView.swift */; };
+		F0C063782810375F0012D745 /* LocationDetailViewController+FetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C063772810375F0012D745 /* LocationDetailViewController+FetchedResultsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		01E6C187280EC1FC00B59941 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		F0BCB602280FE3780003E9AF /* AlbumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewCell.swift; sourceTree = "<group>"; };
 		F0C06375281035A10012D745 /* LocationDetailViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationDetailViewController+CollectionView.swift"; sourceTree = "<group>"; };
+		F0C063772810375F0012D745 /* LocationDetailViewController+FetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationDetailViewController+FetchedResultsController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 				01E6C157280EBD9F00B59941 /* MapViewController.swift */,
 				010A1080280F27690018533C /* LocationDetailViewController.swift */,
 				F0C06375281035A10012D745 /* LocationDetailViewController+CollectionView.swift */,
+				F0C063772810375F0012D745 /* LocationDetailViewController+FetchedResultsController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				01E6C188280EC1FC00B59941 /* DataManager.swift in Sources */,
 				F0C06376281035A10012D745 /* LocationDetailViewController+CollectionView.swift in Sources */,
 				01E6C15E280EBD9F00B59941 /* virtualTourist.xcdatamodeld in Sources */,
+				F0C063782810375F0012D745 /* LocationDetailViewController+FetchedResultsController.swift in Sources */,
 				01E6C158280EBD9F00B59941 /* MapViewController.swift in Sources */,
 				01E6C154280EBD9F00B59941 /* AppDelegate.swift in Sources */,
 				F0BCB603280FE3780003E9AF /* AlbumViewCell.swift in Sources */,
