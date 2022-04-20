@@ -28,6 +28,8 @@ extension LocationDetailViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let viewCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AlbumViewCell
+        viewCell.layer.borderWidth = 1
+        viewCell.layer.borderColor = UIColor.gray.cgColor
         
         // if we're in albums mode, show the album in the given position and its title
         if(currentMode == .PhotoAlbum) {
