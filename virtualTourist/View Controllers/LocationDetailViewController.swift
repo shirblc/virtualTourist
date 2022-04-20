@@ -106,9 +106,11 @@ class LocationDetailViewController: UIViewController {
     // Creates a new album with the given name in Core Data
     func createAlbum(albumName: String?) {
         dataManager.backgroundContext.perform {
+            let bgContextPin = self.dataManager.backgroundContext.object(with: self.pin.objectID)
             let photoAlbum = PhotoAlbum(context: self.dataManager.backgroundContext)
             photoAlbum.name = albumName
             photoAlbum.createdAt = Date()
+            photoAlbum.location = bgContextPin as? Pin
             
             self.dataManager.saveContext(useViewContext: false) { error in
                 self.showErrorAlert(error: error, retryCallback: nil)
