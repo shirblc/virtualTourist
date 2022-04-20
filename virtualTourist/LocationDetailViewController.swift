@@ -20,7 +20,7 @@ class LocationDetailViewController: UIViewController, UICollectionViewDelegate, 
     var dataManager: DataManager!
     var pin: Pin!
     var albumResultsController: NSFetchedResultsController<PhotoAlbum>!
-    var selectedAlbum: PhotoAlbum?
+    var photoResultsController: NSFetchedResultsController<Photo>?
     var currentMode: DetailMode = .PhotoAlbum
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -72,6 +72,35 @@ class LocationDetailViewController: UIViewController, UICollectionViewDelegate, 
             try self.albumResultsController.performFetch()
         } catch {
             showErrorAlert(error: error, retryCallback: performAlbumRequest)
+        }
+    }
+    
+    // setupPhotoFetchedResultsController
+    // Sets up the fetch results controller for photos
+    func setupPhotoFetchedResultsController(selectedAlbum: PhotoAlbum) {
+        let photoRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        photoRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        photoRequest.predicate = NSPredicate(format: "album == %@", selectedAlbum)
+        
+        self.photoResultsController = NSFetchedResultsController(fetchRequest: photoRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "photosForAlbum\(selectedAlbum.name!)")
+        
+        self.performAlbumRequest()
+    }
+    
+    // performPhotoRequest
+    // Performs the photo's FetchedResultsController's fetch
+    func performPhotoRequest() {
+        guard let photoResultsController = photoResultsController else { return }
+        
+        do {
+            try photoResultsController.performFetch()
+            
+            // if the photos have been fetched, set the mode to photo
+            if let _ = photoResultsController.fetchedObjects {
+                self.currentMode = .Photo
+            }
+        } catch {
+            showErrorAlert(error: error, retryCallback: performPhotoRequest)
         }
     }
     
