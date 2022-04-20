@@ -108,7 +108,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // Displays an error alert that allows the user to optionally retry
     func showErrorAlert(error: Error, retryCallback: (() -> Void)?) {
         DispatchQueue.main.async {
-            let errorAlert = UIAlertController(title: "Error fetching pins", message: error.localizedDescription, preferredStyle: .alert)
+            let errorAlert = UIAlertController(title: "Error Performing Request", message: error.localizedDescription, preferredStyle: .alert)
             errorAlert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
                 self.dismiss(animated: true)
             }))
