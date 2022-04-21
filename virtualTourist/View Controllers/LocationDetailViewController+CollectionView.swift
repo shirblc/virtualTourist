@@ -71,11 +71,18 @@ extension LocationDetailViewController: UICollectionViewDelegate, UICollectionVi
     
     // MARK: UICollectionViewDelegate Methods
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return self.currentMode == .PhotoAlbum ? true : false
+        return true
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedAlbum = self.albumResultsController.object(at: indexPath)
-        setupPhotoFetchedResultsController(selectedAlbum: selectedAlbum)
+        // in album mode, see the album's photos
+        if(currentMode == .PhotoAlbum) {
+            let selectedAlbum = self.albumResultsController.object(at: indexPath)
+            setupPhotoFetchedResultsController(selectedAlbum: selectedAlbum)
+        // otherwise delete the selected photo
+        } else {
+            let selectedPhoto = self.photoResultsController?.object(at: indexPath)
+            self.deleteImage(image: selectedPhoto!)
+        }
     }
 }

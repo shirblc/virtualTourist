@@ -40,6 +40,7 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         photoRequest.predicate = NSPredicate(format: "album == %@", selectedAlbum)
         
         self.photoResultsController = NSFetchedResultsController(fetchRequest: photoRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "photosForAlbum\(selectedAlbum.name!)")
+        self.photoResultsController?.delegate = self
         
         self.performPhotoRequest()
     }

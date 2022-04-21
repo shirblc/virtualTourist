@@ -35,7 +35,6 @@ class LocationDetailViewController: UIViewController {
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.albumResultsController.delegate = self
-        self.photoResultsController?.delegate = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -131,6 +130,25 @@ class LocationDetailViewController: UIViewController {
         self.photoResultsController = nil
         self.setupToolbar()
         self.collectionView.reloadData()
+    }
+    
+    // deleteImage
+    // Confirms that the user wishes to delete & deletes the image (if the user chooses to)
+    func deleteImage(image: Photo) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Delete Image?", message: "Are you sure you want to delete this image?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                self.dismiss(animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
+                self.dataManager.viewContext.delete(image)
+                self.dataManager.saveContext(useViewContext: true) { error in
+                    self.showErrorAlert(error: error, retryCallback: nil)
+                }
+                self.dismiss(animated: true)
+            }))
+            self.present(alert, animated: true)
+        }
     }
     
     // MARK: Utilities
