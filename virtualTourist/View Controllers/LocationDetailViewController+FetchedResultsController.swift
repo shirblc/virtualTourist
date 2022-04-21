@@ -19,7 +19,12 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         
         self.albumResultsController = NSFetchedResultsController(fetchRequest: albumRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "albumsForLocation\(pin.latitude)\(pin.longitude)")
         
-        performRequest(controller: self.albumResultsController, successCallback: nil)
+        // if there aren't any albums there, create an initial one
+        performRequest(controller: self.albumResultsController) {
+            if(self.albumResultsController.sections?[0].numberOfObjects == 0) {
+                self.createAlbum(albumName: "Sample")
+            }
+        }
     }
     
     // setupPhotoFetchedResultsController
