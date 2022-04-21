@@ -102,7 +102,7 @@ class ImageFetcher {
     // executeNetworkRequest
     // Executes a network request
     private func executeNetworkRequest(url: URL, successCallback: @escaping (Data) -> Void, errorCallback: @escaping (Error) -> Void) {
-        urlSession.dataTask(with: url) { data, response, error in
+        let dataTask = urlSession.dataTask(with: url) { data, response, error in
             guard let response = response, error == nil else {
                 errorCallback(error!)
                 return
@@ -118,6 +118,7 @@ class ImageFetcher {
                 successCallback(data)
             }
         }
+        dataTask.resume()
     }
     
     // generateError
