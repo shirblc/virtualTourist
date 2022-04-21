@@ -68,7 +68,9 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
             
             // if we're in album mode, it means we added an album, so run the image fetch
             if currentMode == .PhotoAlbum {
+                let selectedAlbum = self.albumResultsController.object(at: (indexPath ?? newIndexPath)!)
                 self.fetchImages(indexPath: (indexPath ?? newIndexPath)!)
+                self.setupPhotoFetchedResultsController(selectedAlbum: selectedAlbum)
             }
         case .delete:
             collectionView.deleteItems(at: [(indexPath ?? newIndexPath)!])
