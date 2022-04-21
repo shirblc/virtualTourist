@@ -105,6 +105,25 @@ class LocationDetailViewController: UIViewController {
         }
     }
     
+    // handleImages
+    // Adds the fetched images to the store
+    func handleImages(images: [ImageData], photoAlbum: PhotoAlbum) {
+        dataManager.backgroundContext.perform {
+            let bgContextAlbum = self.dataManager.backgroundContext.object(with: photoAlbum.objectID) as! PhotoAlbum
+            
+            for image in images {
+                let photo = Photo(context: self.dataManager.backgroundContext)
+                photo.name = image.name
+                photo.photo = image.photo
+                photo.album = bgContextAlbum
+            }
+            
+            self.dataManager.saveContext(useViewContext: false) { error in
+                self.showErrorAlert(error: error, retryCallback: nil)
+            }
+        }
+    }
+    
     // returnToAlbumView
     // Switches back to the album view
     @objc func returnToAlbumView() {
