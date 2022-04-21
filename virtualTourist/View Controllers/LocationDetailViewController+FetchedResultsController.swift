@@ -19,17 +19,7 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         
         self.albumResultsController = NSFetchedResultsController(fetchRequest: albumRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "albumsForLocation\(pin.latitude)\(pin.longitude)")
         
-        performAlbumRequest()
-    }
-    
-    // performAlbumRequest
-    // Performs the results controller's initial fetch
-    func performAlbumRequest() {
-        do {
-            try self.albumResultsController.performFetch()
-        } catch {
-            showErrorAlert(error: error, retryCallback: performAlbumRequest)
-        }
+        performRequest(controller: self.albumResultsController, callback: nil)
     }
     
     // setupPhotoFetchedResultsController
@@ -42,25 +32,28 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         self.photoResultsController = NSFetchedResultsController(fetchRequest: photoRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "photosForAlbum\(selectedAlbum.name!)")
         self.photoResultsController?.delegate = self
         
-        self.performPhotoRequest()
-    }
-    
-    // performPhotoRequest
-    // Performs the photo's FetchedResultsController's fetch
-    func performPhotoRequest() {
         guard let photoResultsController = photoResultsController else { return }
         
-        do {
-            try photoResultsController.performFetch()
-            
+        performRequest(controller: photoResultsController) {
             // if the photos have been fetched, set the mode to photo
-            if let _ = photoResultsController.fetchedObjects {
+            if let _ = self.photoResultsController!.fetchedObjects {
                 self.currentMode = .Photo
                 self.collectionView.reloadData()
                 self.setupToolbar()
             }
+        }
+    }
+    
+    // performRequest
+    // Performs a FetchedResultsController's fetch request
+    func performRequest<T: NSManagedObject>(controller: NSFetchedResultsController<T>, callback: (() -> Void)?) {
+        do {
+            try controller.performFetch()
+            callback?()
         } catch {
-            showErrorAlert(error: error, retryCallback: performPhotoRequest)
+            showErrorAlert(error: error) {
+                self.performRequest(controller: controller, callback: callback)
+            }
         }
     }
     
