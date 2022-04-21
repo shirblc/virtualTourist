@@ -104,6 +104,17 @@ class LocationDetailViewController: UIViewController {
         }
     }
     
+    // fetchImages
+    // Triggers image fetch
+    func fetchImages(indexPath: IndexPath) {
+        let selectedAlbum = albumResultsController.object(at: indexPath)
+        let imageFetcher = ImageFetcher(errorCallback: showErrorAlert(error:retryCallback:), imageSuccessCallback: {
+            images in
+            self.handleImages(images: images, photoAlbum: selectedAlbum)
+        })
+        imageFetcher.getImages(page: selectedAlbum.location?.albums?.count ?? 1, longitude: selectedAlbum.location!.longitude, latitude: selectedAlbum.location!.latitude)
+    }
+    
     // handleImages
     // Adds the fetched images to the store
     func handleImages(images: [ImageData], photoAlbum: PhotoAlbum) {
