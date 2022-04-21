@@ -18,17 +18,19 @@ struct HTTPError: Error {
     var localizedDescription: String
 }
 
+typealias ErrorCallback = (Error, (() -> Void)?) -> Void
+
 class ImageFetcher {
     // MARK: Variables & Constants
     var images: [ImageData] = []
-    var errorCallback: (Error) -> Void
+    var errorCallback: ErrorCallback
     var imageCallback: ([ImageData]) -> Void
     let apiBase = "https://www.flickr.com/services/rest/"
     let perPage = 25
     let urlSession = URLSession.shared
     
     // Init
-    init(errorCallback: @escaping (Error) -> Void, imageSuccessCallback: @escaping ([ImageData]) -> Void) {
+    init(errorCallback: @escaping ErrorCallback, imageSuccessCallback: @escaping ([ImageData]) -> Void) {
         self.errorCallback = errorCallback
         self.imageCallback = imageSuccessCallback
     }
@@ -73,7 +75,7 @@ class ImageFetcher {
                 self.fetchImage(imageData: imageData)
             }
         } catch {
-            self.errorCallback(error)
+            self.errorCallback(error, nil)
         }
     }
     
@@ -101,16 +103,16 @@ class ImageFetcher {
     // MARK: Utils
     // executeNetworkRequest
     // Executes a network request
-    private func executeNetworkRequest(url: URL, successCallback: @escaping (Data) -> Void, errorCallback: @escaping (Error) -> Void) {
+    private func executeNetworkRequest(url: URL, successCallback: @escaping (Data) -> Void, errorCallback: @escaping ErrorCallback) {
         let dataTask = urlSession.dataTask(with: url) { data, response, error in
             guard let response = response, error == nil else {
-                errorCallback(error!)
+                errorCallback(error!, nil)
                 return
             }
             
             guard (200...399).contains((response as? HTTPURLResponse)!.statusCode) else {
                 let err = self.generateError(requestData: data, statusCode: (response as? HTTPURLResponse)!.statusCode)
-                errorCallback(err)
+                errorCallback(err, nil)
                 return
             }
             
