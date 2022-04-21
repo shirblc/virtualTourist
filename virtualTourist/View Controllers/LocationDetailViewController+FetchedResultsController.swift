@@ -19,7 +19,7 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         
         self.albumResultsController = NSFetchedResultsController(fetchRequest: albumRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "albumsForLocation\(pin.latitude)\(pin.longitude)")
         
-        performRequest(controller: self.albumResultsController, callback: nil)
+        performRequest(controller: self.albumResultsController, successCallback: nil)
     }
     
     // setupPhotoFetchedResultsController
@@ -36,23 +36,21 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         
         performRequest(controller: photoResultsController) {
             // if the photos have been fetched, set the mode to photo
-            if let _ = self.photoResultsController!.fetchedObjects {
-                self.currentMode = .Photo
-                self.collectionView.reloadData()
-                self.setupToolbar()
+            if let _ = photoResultsController.fetchedObjects {
+                self.toggleDetailTypeView()
             }
         }
     }
     
     // performRequest
     // Performs a FetchedResultsController's fetch request
-    func performRequest<T: NSManagedObject>(controller: NSFetchedResultsController<T>, callback: (() -> Void)?) {
+    func performRequest<T: NSManagedObject>(controller: NSFetchedResultsController<T>, successCallback: (() -> Void)?) {
         do {
             try controller.performFetch()
-            callback?()
+            successCallback?()
         } catch {
             showErrorAlert(error: error) {
-                self.performRequest(controller: controller, callback: callback)
+                self.performRequest(controller: controller, successCallback: successCallback)
             }
         }
     }

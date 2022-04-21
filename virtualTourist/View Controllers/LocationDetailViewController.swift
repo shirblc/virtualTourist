@@ -63,7 +63,7 @@ class LocationDetailViewController: UIViewController {
     func setupToolbar() {
         let createItem = UIBarButtonItem(title: "New Album", style: .plain, target: self, action: #selector(addAlbum))
         let spaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let backItem = UIBarButtonItem(title: "Back to Albums", style: .plain, target: self, action: #selector(returnToAlbumView))
+        let backItem = UIBarButtonItem(title: "Back to Albums", style: .plain, target: self, action: #selector(toggleDetailTypeView))
         
         if(currentMode == .PhotoAlbum) {
             collectionViewToolbar.items = [spaceItem, createItem, spaceItem]
@@ -104,6 +104,7 @@ class LocationDetailViewController: UIViewController {
         }
     }
     
+    // MARK: Image Methods
     // fetchImages
     // Triggers image fetch
     func fetchImages(indexPath: IndexPath) {
@@ -132,15 +133,6 @@ class LocationDetailViewController: UIViewController {
                 self.showErrorAlert(error: error, retryCallback: nil)
             }
         }
-    }
-    
-    // returnToAlbumView
-    // Switches back to the album view
-    @objc func returnToAlbumView() {
-        self.currentMode = .PhotoAlbum
-        self.photoResultsController = nil
-        self.setupToolbar()
-        self.collectionView.reloadData()
     }
     
     // deleteImage
@@ -176,5 +168,20 @@ class LocationDetailViewController: UIViewController {
             }))
             self.present(errorAlert, animated: true)
         }
+    }
+    
+    // toggleDetailTypeView
+    // Switches between album mode and photo mode
+    @objc func toggleDetailTypeView() {
+        // If we're in album mode, switch to photo
+        if(currentMode == .PhotoAlbum) {
+            currentMode = .Photo
+        // otherwise switch to album
+        } else {
+            currentMode = .PhotoAlbum
+            photoResultsController = nil
+        }
+        self.setupToolbar()
+        self.collectionView.reloadData()
     }
 }
