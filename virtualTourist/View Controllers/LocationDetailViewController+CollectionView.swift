@@ -78,6 +78,10 @@ extension LocationDetailViewController: UICollectionViewDelegate, UICollectionVi
         // in album mode, see the album's photos
         if(currentMode == .PhotoAlbum) {
             let selectedAlbum = self.albumResultsController.object(at: indexPath)
+            // if the selected album has no photos, fetch pics
+            if(selectedAlbum.photos?.count == 0) {
+                self.fetchImages(indexPath: indexPath)
+            }
             setupPhotoFetchedResultsController(selectedAlbum: selectedAlbum)
         // otherwise delete the selected photo
         } else {
