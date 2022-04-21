@@ -72,23 +72,8 @@ class LocationDetailViewController: UIViewController {
             collectionViewToolbar.items = [spaceItem, backItem, spaceItem]
         }
     }
-        
-    // MARK: Utilities
-    // showErrorAlert
-    // Displays an error alert that allows the user to optionally retry
-    func showErrorAlert(error: Error, retryCallback: (() -> Void)?) {
-        DispatchQueue.main.async {
-            let errorAlert = UIAlertController(title: "Error Performing Request", message: error.localizedDescription, preferredStyle: .alert)
-            errorAlert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
-                self.dismiss(animated: true)
-            }))
-            errorAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { _ in
-                retryCallback?()
-            }))
-            self.present(errorAlert, animated: true)
-        }
-    }
     
+    // MARK: Album methods
     // addAlbum
     // Shows the alert for adding an album
     @objc func addAlbum() {
@@ -127,5 +112,21 @@ class LocationDetailViewController: UIViewController {
         self.photoResultsController = nil
         self.setupToolbar()
         self.collectionView.reloadData()
+    }
+    
+    // MARK: Utilities
+    // showErrorAlert
+    // Displays an error alert that allows the user to optionally retry
+    func showErrorAlert(error: Error, retryCallback: (() -> Void)?) {
+        DispatchQueue.main.async {
+            let errorAlert = UIAlertController(title: "Error Performing Request", message: error.localizedDescription, preferredStyle: .alert)
+            errorAlert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
+                self.dismiss(animated: true)
+            }))
+            errorAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { _ in
+                retryCallback?()
+            }))
+            self.present(errorAlert, animated: true)
+        }
     }
 }
