@@ -57,7 +57,8 @@ class ImageFetcher {
             URLQueryItem(name: "accuracy", value: "8"),
             URLQueryItem(name: "privacy_filter", value: "1"),
             URLQueryItem(name: "page", value: "\(page)"),
-            URLQueryItem(name: "bbox", value: "\(longitude-5),\(latitude-5),\(longitude+5), \(latitude+5)"),
+            URLQueryItem(name: "bbox", value: "\(longitude-5),\(latitude-5),\(longitude+5),\(latitude+5)"),
+            URLQueryItem(name: "nojsoncallback", value: "1"),
             URLQueryItem(name: "api_key", value: "")
         ]
         

@@ -21,9 +21,9 @@ struct FlickrPhoto: Codable {
 
 struct FlickrRequestData: Codable {
     var page: Int
-    var pages: String
+    var pages: Int
     var perpage: Int
-    var total: String
+    var total: Int
     var photo: [FlickrPhoto]
 }
 
