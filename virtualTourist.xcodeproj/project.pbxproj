@@ -65,6 +65,7 @@
 		F0BCB602280FE3780003E9AF /* AlbumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewCell.swift; sourceTree = "<group>"; };
 		F0C06375281035A10012D745 /* LocationDetailViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationDetailViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		F0C063772810375F0012D745 /* LocationDetailViewController+FetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationDetailViewController+FetchedResultsController.swift"; sourceTree = "<group>"; };
+		F0C0637B28118A620012D745 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +104,7 @@
 		01E6C147280EBD9F00B59941 = {
 			isa = PBXGroup;
 			children = (
+				F0C0637B28118A620012D745 /* README.md */,
 				01E6C152280EBD9F00B59941 /* virtualTourist */,
 				01E6C16C280EBDA600B59941 /* virtualTouristTests */,
 				01E6C176280EBDA600B59941 /* virtualTouristUITests */,
