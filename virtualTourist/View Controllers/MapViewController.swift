@@ -80,25 +80,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // Adds an annotation to the map and the store
     @IBAction func addAnnotation(_ sender: Any) {
         let recogniser = sender as! UILongPressGestureRecognizer
-        let touchLocation = recogniser.location(in: self.mapView)
-        let locationCoords = self.mapView.convert(touchLocation, toCoordinateFrom: self.mapView)
         
-        // create the pin in the view context since we need to use it in the view
-        let pin = Pin(context: self.dataManager.viewContext)
-        pin.latitude = locationCoords.latitude
-        pin.longitude = locationCoords.longitude
-        
-        // add the annotation to the map view
-        DispatchQueue.main.async {
-            self.pins.append(pin)
-            self.mapView.addAnnotation(self.pinsAnnotations.last!)
-        }
-        
-        // save the context
-        self.dataManager.viewContext.perform {
-            self.dataManager.saveContext(useViewContext: true) {
-                error in
-                self.showErrorAlert(error: error, retryCallback: nil)
+        if recogniser.state == .began {
+            let touchLocation = recogniser.location(in: self.mapView)
+            let locationCoords = self.mapView.convert(touchLocation, toCoordinateFrom: self.mapView)
+            
+            // create the pin in the view context since we need to use it in the view
+            let pin = Pin(context: self.dataManager.viewContext)
+            pin.latitude = locationCoords.latitude
+            pin.longitude = locationCoords.longitude
+            
+            // add the annotation to the map view
+            DispatchQueue.main.async {
+                self.pins.append(pin)
+                self.mapView.addAnnotation(self.pinsAnnotations.last!)
+            }
+            
+            // save the context
+            self.dataManager.viewContext.perform {
+                self.dataManager.saveContext(useViewContext: true) {
+                    error in
+                    self.showErrorAlert(error: error, retryCallback: nil)
+                }
             }
         }
     }
