@@ -163,6 +163,7 @@ class LocationDetailViewController: UIViewController {
                 let photo = Photo(context: self.dataManager.backgroundContext)
                 photo.name = image.name
                 photo.photo = image.photo
+                photo.flickrCount = Int16(image.totalCount)
                 photo.album = bgContextAlbum
             }
             

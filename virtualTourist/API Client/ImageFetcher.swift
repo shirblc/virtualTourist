@@ -10,6 +10,7 @@ import Foundation
 struct ImageData {
     var name: String
     var photo: Data
+    var totalCount: Int
 }
 
 struct HTTPError: Error {
@@ -73,7 +74,7 @@ class ImageFetcher {
             
             // loop over the images and fetch each image
             for imageData in photosData.photos.photo {
-                self.fetchImage(imageData: imageData)
+                self.fetchImage(imageData: imageData, totalCount: photosData.photos.total)
             }
         } catch {
             self.errorCallback(error, nil)
@@ -82,7 +83,7 @@ class ImageFetcher {
     
     // fetchImage
     // Fetches a single image from Flickr
-    private func fetchImage(imageData: FlickrPhoto) {
+    private func fetchImage(imageData: FlickrPhoto, totalCount: Int) {
         // Compile the URL as per https://www.flickr.com/services/api/misc.urls.html
         let imgUrlStr = "https://live.staticflickr.com/\(imageData.server)/\(imageData.id)_\(imageData.secret).jpg"
         let imgUrl = URL(string: imgUrlStr)
@@ -90,7 +91,7 @@ class ImageFetcher {
         // If the URL compiled, make the request
         if let imgUrl = imgUrl {
             self.executeNetworkRequest(url: imgUrl, successCallback: { data in
-                let img = ImageData(name: imageData.title, photo: data)
+                let img = ImageData(name: imageData.title, photo: data, totalCount: totalCount)
                 self.images.append(img)
                 
                 // if this is the final image, call the callback
