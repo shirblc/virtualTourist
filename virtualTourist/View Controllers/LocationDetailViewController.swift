@@ -22,6 +22,7 @@ class LocationDetailViewController: UIViewController {
     var albumResultsController: NSFetchedResultsController<PhotoAlbum>!
     var photoResultsController: NSFetchedResultsController<Photo>?
     var currentMode: DetailMode = .PhotoAlbum
+    var currentAlbumID: NSManagedObjectID?
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewToolbar: UIToolbar!
@@ -62,13 +63,14 @@ class LocationDetailViewController: UIViewController {
     // Sets up the bottom toolbar
     func setupToolbar() {
         let createItem = UIBarButtonItem(title: "New Album", style: .plain, target: self, action: #selector(addAlbum))
+        let refreshAlbum = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAlbum))
         let spaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let backItem = UIBarButtonItem(title: "Back to Albums", style: .plain, target: self, action: #selector(toggleDetailTypeView))
+        let backItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(toggleDetailTypeView))
         
         if(currentMode == .PhotoAlbum) {
             collectionViewToolbar.items = [spaceItem, createItem, spaceItem]
         } else {
-            collectionViewToolbar.items = [spaceItem, backItem, spaceItem]
+            collectionViewToolbar.items = [spaceItem, backItem, spaceItem, refreshAlbum, spaceItem]
         }
     }
     
@@ -104,16 +106,51 @@ class LocationDetailViewController: UIViewController {
         }
     }
     
+    // refreshAlbum
+    // Deletes all the photos in the album and refetches the album
+    @objc func refreshAlbum() {
+        if let currentAlbumID = currentAlbumID {
+            // Fetch the album's photos
+            dataManager.backgroundContext.perform {
+                let bgContextAlbum = self.dataManager.backgroundContext.object(with: currentAlbumID)
+                let fetchRequest = Photo.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "album == %@", bgContextAlbum)
+                
+                do {
+                    let photos = try self.dataManager.backgroundContext.fetch(fetchRequest)
+                    
+                    // Delete the photos
+                    for photo in photos {
+                        self.dataManager.backgroundContext.delete(photo)
+                    }
+                    
+                    self.dataManager.saveContext(useViewContext: false) { error in
+                        self.showErrorAlert(error: error, retryCallback: self.refreshAlbum)
+                    }
+                    
+                    // Fetch new photos
+                    self.dataManager.viewContext.perform {
+                        let albumIndex = self.albumResultsController.indexPath(forObject: self.dataManager.viewContext.object(with: currentAlbumID) as! PhotoAlbum)
+                        self.fetchImages(indexPath: albumIndex!)
+                    }
+                } catch {
+                    self.showErrorAlert(error: error, retryCallback: self.refreshAlbum)
+                }
+            }
+        }
+    }
+    
     // MARK: Image Methods
     // fetchImages
     // Triggers image fetch
     func fetchImages(indexPath: IndexPath) {
+        let randomPage = Int.random(in:0..<100)
         let selectedAlbum = albumResultsController.object(at: indexPath)
         let imageFetcher = ImageFetcher(errorCallback: showErrorAlert(error:retryCallback:), imageSuccessCallback: {
             images in
             self.handleImages(images: images, photoAlbum: selectedAlbum)
         })
-        imageFetcher.getImages(page: selectedAlbum.location?.albums?.count ?? 1, longitude: selectedAlbum.location!.longitude, latitude: selectedAlbum.location!.latitude)
+        imageFetcher.getImages(page: randomPage, longitude: selectedAlbum.location!.longitude, latitude: selectedAlbum.location!.latitude)
     }
     
     // handleImages

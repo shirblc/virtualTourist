@@ -36,6 +36,7 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         
         self.photoResultsController = NSFetchedResultsController(fetchRequest: photoRequest, managedObjectContext: self.dataManager.viewContext, sectionNameKeyPath: nil, cacheName: "photosForAlbum\(selectedAlbum.name!)")
         self.photoResultsController?.delegate = self
+        self.currentAlbumID = selectedAlbum.objectID
         
         guard let photoResultsController = photoResultsController else { return }
         
