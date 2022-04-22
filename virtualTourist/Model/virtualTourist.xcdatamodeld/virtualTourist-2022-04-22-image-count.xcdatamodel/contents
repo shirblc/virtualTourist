@@ -8,6 +8,7 @@
     </entity>
     <entity name="PhotoAlbum" representedClassName="PhotoAlbum" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" allowsCloudEncryption="YES" usesScalarValueType="NO"/>
+        <attribute name="flickrCount" optional="YES" attributeType="Double" defaultValueString="0.0" allowsCloudEncryption="YES" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String" defaultValueString="New Album" allowsCloudEncryption="YES"/>
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pin" inverseName="albums" inverseEntity="Pin"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="album" inverseEntity="Photo"/>
@@ -19,7 +20,7 @@
     </entity>
     <elements>
         <element name="Photo" positionX="-54" positionY="9" width="128" height="89"/>
-        <element name="PhotoAlbum" positionX="-36" positionY="18" width="128" height="89"/>
+        <element name="PhotoAlbum" positionX="-36" positionY="18" width="128" height="104"/>
         <element name="Pin" positionX="-63" positionY="-18" width="128" height="74"/>
     </elements>
 </model>

@@ -118,6 +118,7 @@ class LocationDetailViewController: UIViewController {
                 
                 do {
                     let photos = try self.dataManager.backgroundContext.fetch(fetchRequest)
+                    (bgContextAlbum as! PhotoAlbum).flickrCount = photos[0].flickrCount
                     
                     // Delete the photos
                     for photo in photos {
@@ -145,23 +146,36 @@ class LocationDetailViewController: UIViewController {
     // Triggers image fetch
     func fetchImages(indexPath: IndexPath) {
         var page: Int
-        let firstImage: Photo? = self.photoResultsController?.sections?[0].objects?[0] as? Photo
+        let selectedAlbum = albumResultsController.object(at: indexPath)
         
-        // if there's a count, fetch a random page based on that
-        if let firstImage = firstImage, firstImage.flickrCount > 0 {
-            let pages = Int(ceil(Double(firstImage.flickrCount / 25)))
-            page = Int.random(in:0..<pages)
-        // otherwise fetch page 1
+        if let numObjects = photoResultsController?.sections?[0].numberOfObjects, numObjects > 0 {
+            let firstImage: Photo? = self.photoResultsController?.sections?[0].objects?[0] as? Photo
+            page = self.getPageNumber(flickrCount: firstImage!.flickrCount)
         } else {
-            page = 1
+            let flickrCount = selectedAlbum.flickrCount
+            page = self.getPageNumber(flickrCount: flickrCount)
         }
         
-        let selectedAlbum = albumResultsController.object(at: indexPath)
         let imageFetcher = ImageFetcher(errorCallback: showErrorAlert(error:retryCallback:), imageSuccessCallback: {
             images in
             self.handleImages(images: images, photoAlbum: selectedAlbum)
         })
         imageFetcher.getImages(page: page, longitude: selectedAlbum.location!.longitude, latitude: selectedAlbum.location!.latitude)
+    }
+    
+    // getPageNumber
+    // Generates the page number for the flickr fetch
+    func getPageNumber(flickrCount: Double) -> Int {
+        var page: Int
+        
+        if(flickrCount > 0) {
+            let pages = Int(ceil(flickrCount / 25))
+            page = Int.random(in:0..<pages)
+        } else {
+            page = 1
+        }
+        
+        return page
     }
     
     // handleImages
@@ -176,6 +190,7 @@ class LocationDetailViewController: UIViewController {
                 photo.photo = image.photo
                 photo.flickrCount = Double(image.totalCount)
                 photo.album = bgContextAlbum
+                bgContextAlbum.flickrCount = Double(image.totalCount)
             }
             
             self.dataManager.saveContext(useViewContext: false) { error in
