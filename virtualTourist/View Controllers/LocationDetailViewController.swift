@@ -144,13 +144,24 @@ class LocationDetailViewController: UIViewController {
     // fetchImages
     // Triggers image fetch
     func fetchImages(indexPath: IndexPath) {
-        let randomPage = Int.random(in:0..<100)
+        var page: Int
+        let firstImage: Photo? = self.photoResultsController?.sections?[0].objects?[0] as? Photo
+        
+        // if there's a count, fetch a random page based on that
+        if let firstImage = firstImage, firstImage.flickrCount > 0 {
+            let pages = Int(ceil(Double(firstImage.flickrCount / 25)))
+            page = Int.random(in:0..<pages)
+        // otherwise fetch page 1
+        } else {
+            page = 1
+        }
+        
         let selectedAlbum = albumResultsController.object(at: indexPath)
         let imageFetcher = ImageFetcher(errorCallback: showErrorAlert(error:retryCallback:), imageSuccessCallback: {
             images in
             self.handleImages(images: images, photoAlbum: selectedAlbum)
         })
-        imageFetcher.getImages(page: randomPage, longitude: selectedAlbum.location!.longitude, latitude: selectedAlbum.location!.latitude)
+        imageFetcher.getImages(page: page, longitude: selectedAlbum.location!.longitude, latitude: selectedAlbum.location!.latitude)
     }
     
     // handleImages
@@ -163,7 +174,7 @@ class LocationDetailViewController: UIViewController {
                 let photo = Photo(context: self.dataManager.backgroundContext)
                 photo.name = image.name
                 photo.photo = image.photo
-                photo.flickrCount = Int16(image.totalCount)
+                photo.flickrCount = Double(image.totalCount)
                 photo.album = bgContextAlbum
             }
             
