@@ -169,6 +169,12 @@ class LocationDetailViewController: UIViewController {
             self.dataManager.saveContext(useViewContext: false) { error in
                 self.showErrorAlert(error: error, retryCallback: nil)
             }
+            
+            // reload visible items to replace the placeholders
+            DispatchQueue.main.async {
+                let visibleItems = self.collectionView.indexPathsForVisibleItems
+                self.collectionView.reloadItems(at: visibleItems)
+            }
         }
     }
     
@@ -218,7 +224,12 @@ class LocationDetailViewController: UIViewController {
             currentMode = .PhotoAlbum
             photoResultsController = nil
         }
-        self.setupToolbar()
-        self.collectionView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.setupToolbar()
+            self.collectionView.reloadData()
+            let visibleItems = self.collectionView.indexPathsForVisibleItems
+            self.collectionView.reloadItems(at: visibleItems)
+        }
     }
 }

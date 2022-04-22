@@ -20,9 +20,10 @@ extension LocationDetailViewController: UICollectionViewDelegate, UICollectionVi
             return self.albumResultsController.sections?[section].numberOfObjects ?? 0
         // otherwise make sure there's a photoResultsController; if there is, set the length of the fetched results as the number of items in view
         } else {
-            guard let photoResultsController = photoResultsController else { return 0 }
+            guard let photoResultsController = photoResultsController else { return 25 }
+            let numberOfPhotosInAlbum = photoResultsController.sections?[section].numberOfObjects ?? 0
             
-            return photoResultsController.sections?[section].numberOfObjects ?? 0
+            return numberOfPhotosInAlbum == 0 ? 25 : numberOfPhotosInAlbum
         }
     }
     
@@ -54,7 +55,15 @@ extension LocationDetailViewController: UICollectionViewDelegate, UICollectionVi
             }
         // otherwise show the image in the given position
         } else {
-            let photoAtIndex = self.photoResultsController?.object(at: indexPath)
+            var photoAtIndex: Photo?
+            
+            // if there are images, get the image
+            if(self.photoResultsController?.sections?[indexPath.section].numberOfObjects ?? 0 > indexPath.row) {
+                photoAtIndex = self.photoResultsController?.object(at: indexPath)
+            // otherwise set it to nil so we can set the image to the placeholder
+            } else {
+                photoAtIndex = nil
+            }
             
             DispatchQueue.main.async {
                 viewCell.albumLabel.isHidden = true
@@ -62,6 +71,8 @@ extension LocationDetailViewController: UICollectionViewDelegate, UICollectionVi
                 
                 if let photoAtIndex = photoAtIndex, let photo = photoAtIndex.photo {
                     viewCell.albumImage.image = UIImage(data: photo)
+                } else {
+                    viewCell.albumImage.image = UIImage(systemName: "photo.fill")
                 }
             }
         }

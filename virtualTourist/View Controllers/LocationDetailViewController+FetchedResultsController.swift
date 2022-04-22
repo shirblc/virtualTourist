@@ -41,10 +41,7 @@ extension LocationDetailViewController: NSFetchedResultsControllerDelegate {
         guard let photoResultsController = photoResultsController else { return }
         
         performRequest(controller: photoResultsController) {
-            // if the photos have been fetched, set the mode to photo
-            if let _ = photoResultsController.fetchedObjects {
-                self.toggleDetailTypeView()
-            }
+            self.toggleDetailTypeView()
         }
     }
     
