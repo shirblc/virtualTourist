@@ -66,6 +66,7 @@
 		F0C06375281035A10012D745 /* LocationDetailViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationDetailViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		F0C063772810375F0012D745 /* LocationDetailViewController+FetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationDetailViewController+FetchedResultsController.swift"; sourceTree = "<group>"; };
 		F0C0637B28118A620012D745 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F0C0637C28130D0D0012D745 /* virtualTourist-2022-04-22-image-count.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "virtualTourist-2022-04-22-image-count.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -695,9 +696,10 @@
 		01E6C15C280EBD9F00B59941 /* virtualTourist.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				F0C0637C28130D0D0012D745 /* virtualTourist-2022-04-22-image-count.xcdatamodel */,
 				01E6C15D280EBD9F00B59941 /* virtualTourist.xcdatamodel */,
 			);
-			currentVersion = 01E6C15D280EBD9F00B59941 /* virtualTourist.xcdatamodel */;
+			currentVersion = F0C0637C28130D0D0012D745 /* virtualTourist-2022-04-22-image-count.xcdatamodel */;
 			path = virtualTourist.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
